@@ -31,3 +31,7 @@ all: build
 
 build:
 	${DOCKER} build -t ${IMAGENAME} .
+
+rm-image:
+	podman rmi ${IMAGENAME}
+
