@@ -27,3 +27,38 @@
 FROM debian:latest
 MAINTAINER Alessandro Iezzi <aiezzi@alessandroiezzi.it>
 
+# Make the update of package indexes and install: apache2, cgit, git and
+# highlight. Apache is the web server, exposed to the port 80; cgit is the web
+# UI for git and highlight is a tool to get the syntax highlight (not yet
+# configured in this version of cgit-containerized).
+RUN apt-get update
+RUN apt-get install -y apache2 cgit git highlight
+
+# Prepare cgit
+#
+# Replace /et/cgitrc with the one in config directory and create the directory
+# for the git repositories.
+ADD config/cgitrc /etc/
+RUN mkdir -p /cgit-repositories
+RUN chmod 777 /cgit-repositories
+
+# Prepare Apache Web Server
+#
+# First of, disable the default virtual host and replace it with the one in
+# config directory. Then, add the configuration for cgit.
+RUN a2dissite 000-default
+ADD config/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD config/cgit.conf /etc/apache2/conf-available/
+
+# Enable authz_groupfile used in the virtual host.
+RUN a2enmod authz_groupfile
+
+# Enable the cgit configuration
+RUN a2enconf cgit
+RUN a2enmod cgid
+
+# Finally, enable the virtual host.
+RUN a2ensite 000-default
+
+EXPOSE 80
+
