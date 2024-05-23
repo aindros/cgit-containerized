@@ -60,5 +60,8 @@ RUN a2enmod cgid
 # Finally, enable the virtual host.
 RUN a2ensite 000-default
 
+# Application to create git repositories
+ADD html /var/www/html
+
 EXPOSE 80
 
