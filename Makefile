@@ -24,13 +24,13 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-DOCKER    = podman
+OCI       = podman
 IMAGENAME = cgit
 
 all: build
 
 build:
-	${DOCKER} build -t ${IMAGENAME} .
+	${OCI} build -t ${IMAGENAME} .
 
 rm-image:
 	podman rmi ${IMAGENAME}
