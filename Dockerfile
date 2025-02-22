@@ -65,3 +65,4 @@ ADD html /var/www/html
 
 EXPOSE 80
 
+ENTRYPOINT service apache2 start && bash
