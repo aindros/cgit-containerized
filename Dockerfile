@@ -36,7 +36,7 @@ RUN apt-get install -y apache2 cgit git highlight nano
 
 # Prepare cgit
 #
-# Replace /et/cgitrc with the one in config directory and create the directory
+# Replace /etc/cgitrc with the one in config directory and create the directory
 # for the git repositories.
 ADD config/cgitrc /etc/
 RUN mkdir -p /cgit-repositories
