@@ -32,7 +32,7 @@ MAINTAINER Alessandro Iezzi <aiezzi@alessandroiezzi.it>
 # UI for git and highlight is a tool to get the syntax highlight (not yet
 # configured in this version of cgit-containerized).
 RUN apt-get update
-RUN apt-get install -y apache2 cgit git highlight
+RUN apt-get install -y apache2 cgit git highlight nano
 
 # Prepare cgit
 #
