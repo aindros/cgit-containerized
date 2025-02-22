@@ -2,6 +2,13 @@
 cgit containerized
 ==================
 
+How to create the Dockerfile
+----------------------------
+
+```
+make Dockerfile
+```
+
 How to build the image
 ----------------------
 

@@ -29,6 +29,9 @@ IMAGENAME = cgit
 
 all: build
 
+Dockerfile:
+	@scripts/create-dockerfile.sh
+
 build:
 	${OCI} build -t ${IMAGENAME} .
 
