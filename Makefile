@@ -24,13 +24,18 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# Customize these variables as you prefer.
+#   OCI       - is the container tool
+#   IMAGENAME - is the name of the image
+#   WORKDIR   - is the directory where the repositories are stored
 OCI       = podman
 IMAGENAME = cgit
+WORKDIR   =
 
 all: build
 
 Dockerfile:
-	@scripts/create-dockerfile.sh
+	@WORKDIR=${WORKDIR} scripts/create-dockerfile.sh
 
 build: Dockerfile
 	${OCI} build -t ${IMAGENAME} .

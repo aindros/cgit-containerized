@@ -2,6 +2,8 @@
 
 DOCKERFILE=$(dirname $(realpath $0))/../Dockerfile
 
+[ -z $WORKDIR ] && WORKDIR=/cgit-repositories
+
 cat << EOF > $DOCKERFILE
 #-
 # BSD 2-Clause License
@@ -44,8 +46,8 @@ RUN apt-get install -y apache2 cgit git highlight nano
 # Replace /etc/cgitrc with the one in config directory and create the directory
 # for the git repositories.
 ADD config/cgitrc /etc/
-RUN mkdir -p /cgit-repositories
-RUN chmod 777 /cgit-repositories
+RUN mkdir -p $WORKDIR
+RUN chmod 777 $WORKDIR
 
 # Prepare Apache Web Server
 #
@@ -69,6 +71,8 @@ RUN a2ensite 000-default
 ADD html /var/www/html
 
 EXPOSE 80
+
+WORKDIR $WORKDIR
 
 ENTRYPOINT service apache2 start && bash
 EOF
