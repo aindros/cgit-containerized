@@ -32,13 +32,11 @@ OCI       = podman
 IMAGENAME = cgit
 WORKDIR   =
 
-all: build
+build: Dockerfile
+	${OCI} build -t ${IMAGENAME} .
 
 Dockerfile:
 	@WORKDIR=${WORKDIR} scripts/create-dockerfile.sh
-
-build: Dockerfile
-	${OCI} build -t ${IMAGENAME} .
 
 clean:
 	@rm -f Dockerfile
