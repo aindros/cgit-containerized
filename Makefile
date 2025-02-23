@@ -40,6 +40,9 @@ Dockerfile:
 build: Dockerfile
 	${OCI} build -t ${IMAGENAME} .
 
+clean:
+	@rm -f Dockerfile
+
 rm-image:
 	podman rmi ${IMAGENAME}
 
