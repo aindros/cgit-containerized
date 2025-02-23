@@ -1,24 +1,31 @@
+#!/bin/sh
+
+A2CONFIG=$(dirname $(realpath $0))/../config/000-default.conf
+
+[ -z $WORKDIR ] && WORKDIR=/var/www/cgit
+
+cat << EOF > $A2CONFIG
 <VirtualHost *:80>
 #	ServerName git.alessandroiezzi.it
-	DocumentRoot "/cgit-repositories"
+	DocumentRoot "$WORKDIR"
 
-	SetEnv GIT_PROJECT_ROOT /cgit-repositories
+	SetEnv GIT_PROJECT_ROOT $WORKDIR
 	SetEnv GIT_HTTP_EXPORT_ALL
 
-	ScriptAliasMatch \
-		"(?x)^/(.*/(HEAD | \
-						info/refs | \
-						objects/(info/[^/]+ | \
-						         [0-9a-f]{2}/[0-9a-f]{38} | \
-						         pack/pack-[0-9a-f]{40}\.(pack|idx)) | \
-						git-(upload|receive)-pack))$" \
-		/usr/lib/git-core/git-http-backend/$1
+	ScriptAliasMatch \\
+		"(?x)^/(.*/(HEAD | \\
+						info/refs | \\
+						objects/(info/[^/]+ | \\
+						         [0-9a-f]{2}/[0-9a-f]{38} | \\
+						         pack/pack-[0-9a-f]{40}\.(pack|idx)) | \\
+						git-(upload|receive)-pack))$" \\
+		/usr/lib/git-core/git-http-backend/\$1
 
 	<LocationMatch "^/.*git-receive-pack$">
 		AuthType Basic
 		AuthName "Git Access"
-		AuthUserFile /cgit-repositories/.passwd
-		AuthGroupFile /cgit-repositories/.groups
+		AuthUserFile $WORKDIR/.passwd
+		AuthGroupFile $WORKDIR/.groups
 		Require group admin
 	</LocationMatch>
 
@@ -57,3 +64,4 @@
 	Alias / /usr/lib/cgit/cgit.cgi/
 </VirtualHost>
 
+EOF

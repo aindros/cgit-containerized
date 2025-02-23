@@ -37,14 +37,16 @@ WORKDIR   = /var/www/cgit
 VOLUME    = cgit-data
 PORT      = 2080
 
-build: Dockerfile
+build: configs
 	${OCI} build -t ${IMAGENAME}:latest -t ${IMAGENAME}:${VERSION} .
 
-Dockerfile:
+configs:
 	@WORKDIR=${WORKDIR} scripts/create-dockerfile.sh
+	@WORKDIR=${WORKDIR} scripts/create-configs.sh
 
 clean:
 	@rm -f Dockerfile
+	@rm -f config/000-default.conf
 
 help:
 	@grep -oE '^[a-zA-Z0-9].*:' Makefile | sed -E 's/:$$//g'
