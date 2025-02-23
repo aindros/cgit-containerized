@@ -2,7 +2,7 @@
 
 DOCKERFILE=$(dirname $(realpath $0))/../Dockerfile
 
-[ -z $WORKDIR ] && WORKDIR=/cgit-repositories
+[ -z $WORKDIR ] && WORKDIR=/var/www/cgit
 
 cat << EOF > $DOCKERFILE
 #-
