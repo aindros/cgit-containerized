@@ -32,7 +32,7 @@ all: build
 Dockerfile:
 	@scripts/create-dockerfile.sh
 
-build:
+build: Dockerfile
 	${OCI} build -t ${IMAGENAME} .
 
 rm-image:
