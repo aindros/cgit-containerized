@@ -63,3 +63,6 @@ run: build
 		-v ${VOLUME}:${WORKDIR}:Z \
 		--name cgit \
 		${IMAGENAME}
+
+tag-release:
+	@scripts/tag-release.sh ${VERSION}
