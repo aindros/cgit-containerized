@@ -27,13 +27,15 @@
 # Customize these variables as you prefer.
 #   OCI       - is the container tool
 #   IMAGENAME - is the name of the image
+#   VERSION   - is the tag of the image
 #   WORKDIR   - is the directory where the repositories are stored
 OCI       = podman
 IMAGENAME = cgit
+VERSION   = 0.0.0-alpha.0
 WORKDIR   =
 
 build: Dockerfile
-	${OCI} build -t ${IMAGENAME} .
+	${OCI} build -t ${IMAGENAME}:latest -t ${IMAGENAME}:${VERSION} .
 
 Dockerfile:
 	@WORKDIR=${WORKDIR} scripts/create-dockerfile.sh
