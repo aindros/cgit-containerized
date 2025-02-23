@@ -43,6 +43,9 @@ build: Dockerfile
 clean:
 	@rm -f Dockerfile
 
+help:
+	@grep -oE '^[a-zA-Z0-9].*:' Makefile | sed -E 's/:$$//g'
+
 rm-image:
 	podman rmi ${IMAGENAME}
 

@@ -1,24 +1,31 @@
-
 cgit containerized
 ==================
 
-How to create the Dockerfile
-----------------------------
+Introduction
+------------
 
-```
-make Dockerfile
-```
+To build this project, can be set some variables. To check which ones,
+just open the *Makefile* and see the variables section.
 
-How to build the image
-----------------------
+How to build
+------------
 
-To build the image:
+After customizing the variables, to build the image, just execute:
+
 ```
 $ make build
 ```
-or:
-```
-$ podman build -t cgit .
-```
-`cgit` is the image's name, it can be replaced with any other name.
+
+### Make targets
+
+- `Dockerfile` --- Generates only Dockerfile.
+- `build` --- Generates the Dockerfile and lanch the image's build.
+- `rm-image` --- Removes the image from the system.
+- `clean` --- Removes the generates files, except for the image from system.
+
+
+
+
+
+
 
