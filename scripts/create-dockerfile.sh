@@ -49,6 +49,13 @@ ADD config/cgitrc /etc/
 RUN mkdir -p $WORKDIR
 RUN chmod 777 $WORKDIR
 
+# Create a directory for shell scripts
+RUN mkdir -p $WORKDIR/bin
+RUN echo 'export PATH=\$PATH:$WORKDIR/bin' >> ~/.bashrc
+
+# Add scripts to manage cgit repositories
+COPY scripts/create-repository.sh $WORKDIR/bin/create-repository.sh
+
 # Prepare Apache Web Server
 #
 # First of, disable the default virtual host and replace it with the one in
