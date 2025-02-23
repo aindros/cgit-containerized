@@ -48,6 +48,7 @@ configs:
 clean:
 	@rm -f Dockerfile
 	@rm -f config/000-default.conf
+	@rm -f config/cgitrc
 
 help:
 	@grep -oE '^[a-zA-Z0-9].*:' Makefile | sed -E 's/:$$//g'
