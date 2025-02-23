@@ -31,12 +31,14 @@
 #   WORKDIR   - is the directory where the repositories are stored
 #   VOLUME    - can be a volume or a directory where to store repositories
 #   PORT      - the listening port for cgit container
+#   RFLAGS    - flags to use to run the container
 OCI       = podman
 IMAGENAME = cgit
 VERSION   = 0.0.0-alpha.1
 WORKDIR   = /var/www/cgit
 VOLUME    = cgit-data
 PORT      = 2080
+RFLAGS    = -it --rm
 
 build: configs
 	${OCI} build -t ${IMAGENAME}:latest -t ${IMAGENAME}:${VERSION} .
@@ -58,7 +60,7 @@ rm-image:
 	${OCI} rmi ${IMAGENAME}:${VERSION}
 
 run: build
-	${OCI} run -it --rm \
+	${OCI} run ${RFLAGS} \
 		-p ${PORT}:80 \
 		-v ${VOLUME}:${WORKDIR}:Z \
 		--name cgit \
