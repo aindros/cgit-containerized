@@ -47,5 +47,7 @@ help:
 	@grep -oE '^[a-zA-Z0-9].*:' Makefile | sed -E 's/:$$//g'
 
 rm-image:
-	podman rmi ${IMAGENAME}
+	${OCI} rmi ${IMAGENAME}:latest
+	${OCI} rmi ${IMAGENAME}:${VERSION}
+
 
