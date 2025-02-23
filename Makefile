@@ -33,7 +33,7 @@
 #   PORT      - the listening port for cgit container
 OCI       = podman
 IMAGENAME = cgit
-VERSION   = 0.0.0-alpha.0
+VERSION   = 0.0.0-alpha.1
 WORKDIR   = /var/www/cgit
 VOLUME    = cgit-data
 PORT      = 2080
