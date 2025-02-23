@@ -29,6 +29,7 @@
 #   IMAGENAME - is the name of the image
 #   VERSION   - is the tag of the image
 #   WORKDIR   - is the directory where the repositories are stored
+#   VOLUME    - can be a volume or a directory where to store repositories
 #   PORT      - the listening port for cgit container
 OCI       = podman
 IMAGENAME = cgit
