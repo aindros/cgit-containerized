@@ -56,7 +56,7 @@ rm-image:
 	${OCI} rmi ${IMAGENAME}:latest
 	${OCI} rmi ${IMAGENAME}:${VERSION}
 
-run:
+run: build
 	${OCI} run -it --rm \
 		-p ${PORT}:80 \
 		-v ${VOLUME}:${WORKDIR}:Z \
