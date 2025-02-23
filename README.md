@@ -54,6 +54,13 @@ podman run -p 2080:80 \
 	cgit
 ```
 
+How to create a new repository
+------------------------------
+
+```
+podman exec -it cgit create-repository.sh
+```
+
 Contributing
 ------------
 
