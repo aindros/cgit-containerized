@@ -29,10 +29,13 @@
 #   IMAGENAME - is the name of the image
 #   VERSION   - is the tag of the image
 #   WORKDIR   - is the directory where the repositories are stored
+#   PORT      - the listening port for cgit container
 OCI       = podman
 IMAGENAME = cgit
 VERSION   = 0.0.0-alpha.0
-WORKDIR   =
+WORKDIR   = /var/www/cgit
+VOLUME    = cgit-data
+PORT      = 2080
 
 build: Dockerfile
 	${OCI} build -t ${IMAGENAME}:latest -t ${IMAGENAME}:${VERSION} .
@@ -50,4 +53,9 @@ rm-image:
 	${OCI} rmi ${IMAGENAME}:latest
 	${OCI} rmi ${IMAGENAME}:${VERSION}
 
-
+run:
+	${OCI} run -it --rm \
+		-p ${PORT}:80 \
+		-v ${VOLUME}:${WORKDIR}:Z \
+		--name cgit \
+		${IMAGENAME}
