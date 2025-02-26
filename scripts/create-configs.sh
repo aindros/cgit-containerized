@@ -100,12 +100,14 @@ email-filter=lua:/usr/lib/cgit/filters/email-libravatar-korg.lua
 
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.sh
 
-scan-path=$WORKDIR
+#scan-path=$WORKDIR
 
 # To update the reposotories lit:
 # /usr/lib/cgit/cgit.cgi --scan-tree=$WORKDIR/ > /etc/cgit-repos
 #include=/etc/cgit-repos
 
 #virtual-root=/repos/
+
+include=$WORKDIR/cgit-repos
 
 EOF
