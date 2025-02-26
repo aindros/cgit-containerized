@@ -61,6 +61,19 @@ How to create a new repository
 podman exec -it cgit create-repository.sh
 ```
 
+How to push on Docker Hub
+-------------------------
+
+Before pushing the image, you must be logged in to Docker Hub:
+```
+podman login -u USER docker.io/USER/IMAGE
+```
+
+```
+podman tag IMAGE:latest USER/IMAGE:latest
+podman push USER/IMAGE:latest
+```
+
 Contributing
 ------------
 
