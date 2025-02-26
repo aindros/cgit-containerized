@@ -1,51 +1,128 @@
 #!/bin/sh
 
-echo -n "Repository name: "
-read reponame
+# WORKDIR - is defined by Dockerfile
 
-echo -n "Repository description: "
-read description
+repositoryName()
+{
+	echo -n "Repository name: "
+	read REPONAME
+}
 
-echo -n "Repository owner full name: "
-read ownername
+repositoryDescription()
+{
+	echo -n "Repository description: "
+	read DESCRIPTION
+}
 
-echo -n "Repository owner email: "
-read owneremail
+repositoryOwnerName()
+{
+	echo -n "Repository owner full name: "
+	read OWNERNAME
+}
 
-echo -n "Enter organization/directory name (leave empty for root): "
-read directory
+repositoryOwnerMail()
+{
+	echo -n "Repository owner email: "
+	read OWNEREMAIL
 
-echo -n "Do you want to hide this new repository? [n]: "
-read hide
+	if [ -z $OWNEREMAIL ]; then
+		OWNER="$OWNERNAME"
+	else
+		OWNER="$OWNERNAME <$OWNEREMAIL>"
+	fi
+}
 
-if [ ! -z $directory ]; then
-    mkdir -p $directory
-    chown -R www-data:www-data $directory
-    reponame=$directory/$reponame
-fi
+repositoryRoot()
+{
+	echo -n "Enter organization/directory name (leave empty for root): "
+	read directory
+}
 
-if [ "$hide" = "y" ]; then
-    hide=1
-else
-    hide=0
-fi
+repositoryHide()
+{
+	echo -n "Do you want to hide this new repository? [n]: "
+	read hide
+}
 
-git init --bare $reponame.git
+initData()
+{
+	repositoryName
+	repositoryDescription
+	repositoryOwnerName
+	repositoryOwnerMail
+	repositoryRoot
+	repositoryHide
+}
 
-descrf=$reponame.git/description
-configf=$reponame.git/config
+createRepository()
+{
+	if [ ! -z $directory ]; then
+		mkdir -p $directory
+		chown -R www-data:www-data $directory
+		REPONAME=$directory/$REPONAME
+	fi
 
-echo $description > $descrf
+	echo 'Creating the repository '$REPONAME
 
-echo "[http]" >> $configf
-echo "        receivepack = true" >> $configf
-echo "" >> $configf
-echo "[gitweb]" >> $configf
+	git init --bare $REPONAME.git
 
-if [ -z $owneremail ]; then
-    echo "        owner = $ownername" >> $configf
-else
-    echo "        owner = $ownername <$owneremail>" >> $configf
-fi
+	echo $DESCRIPTION > $REPONAME.git/description
 
-chown -R www-data:www-data $reponame.git
+cat << EOF >> $REPONAME.git/config
+[http]
+	receivepack = true
+
+[gitweb]
+	owner = $OWNER
+EOF
+
+	chown -R www-data:www-data $REPONAME.git
+}
+
+cgitConfigRepository()
+{
+	if [ -z "$directory" ]; then
+		CGITREPOS=$WORKDIR/cgit-repos-root
+	else
+		CGITREPOS=$WORKDIR/cgit-repos-$(echo $directory | sed 's/\/.*//g')
+	fi
+
+	touch $WORKDIR/cgit-repos
+	if [ -z "$(grep -E "^include=$CGITREPOS" $WORKDIR/cgit-repos)" ]; then
+		echo "include=$CGITREPOS" >> $WORKDIR/cgit-repos
+	fi
+
+	if [ ! -f $CGITREPOS ]; then
+		touch $CGITREPOS
+	else
+		# Leave a space between repository configurations
+		echo "" >> $CGITREPOS
+	fi
+
+	if [ "$hide" = "y" ]; then
+		hide=1
+	else
+		hide=0
+	fi
+
+cat << EOF >> $CGITREPOS
+repo.url=$REPONAME.git
+repo.name=$REPONAME.git
+repo.path=$WORKDIR/$REPONAME.git/
+repo.owner=$OWNER
+repo.desc=$DESCRIPTION
+repo.section=$directory
+repo.enable-commit-graph=0
+repo.enable-log-filecount=0
+repo.enable-log-linecount=0
+repo.enable-remote-branches=0
+repo.enable-subject-links=0
+repo.enable-html-serving=0
+repo.hide=$hide
+repo.ignore=0
+EOF
+}
+
+initData
+createRepository
+cgitConfigRepository
