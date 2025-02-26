@@ -60,6 +60,7 @@ ENV WORKDIR=$WORKDIR
 # Add scripts to manage cgit repositories
 COPY scripts/create-repository.sh /usr/local/bin/create-repository.sh
 COPY scripts/create-group.sh /usr/local/bin/create-group.sh
+COPY scripts/create-user.sh /usr/local/bin/create-user.sh
 
 # Prepare Apache Web Server
 #
