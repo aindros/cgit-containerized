@@ -39,6 +39,7 @@ WORKDIR   = /var/www/cgit
 VOLUME    = cgit-data
 PORT      = 2080
 RFLAGS    = -it --rm
+HUB       = aindros
 
 build: configs
 	${OCI} build -t ${IMAGENAME}:latest -t ${IMAGENAME}:${VERSION} .
@@ -68,3 +69,7 @@ run: build
 
 tag-release:
 	@scripts/tag-release.sh ${VERSION}
+	${OCI} tag ${IMAGENAME}:latest ${HUB}/${IMAGENAME}:latest
+	${OCI} tag ${IMAGENAME}:${VERSION} ${HUB}/${IMAGENAME}:${VERSION}
+	${OCI} push ${HUB}/${IMAGENAME}:latest
+	${OCI} push ${HUB}/${IMAGENAME}:${VERSION}
