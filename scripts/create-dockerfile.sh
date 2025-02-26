@@ -52,6 +52,7 @@ RUN chmod 777 $WORKDIR
 # Create a directory for shell scripts
 RUN mkdir -p $WORKDIR/bin
 ENV PATH=\$PATH:$WORKDIR/bin
+ENV WORKDIR=$WORKDIR
 
 # Add scripts to manage cgit repositories
 COPY scripts/create-repository.sh $WORKDIR/bin/create-repository.sh
