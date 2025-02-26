@@ -55,7 +55,7 @@ ENV PATH=\$PATH:$WORKDIR/bin
 ENV WORKDIR=$WORKDIR
 
 # Add scripts to manage cgit repositories
-COPY scripts/create-repository.sh $WORKDIR/bin/create-repository.sh
+COPY scripts/create-repository.sh /usr/local/bin/create-repository.sh
 
 # Prepare Apache Web Server
 #
