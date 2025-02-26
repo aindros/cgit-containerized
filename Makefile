@@ -57,8 +57,7 @@ help:
 	@grep -oE '^[a-zA-Z0-9].*:' Makefile | sed -E 's/:$$//g'
 
 rm-image:
-	${OCI} rmi ${IMAGENAME}:latest
-	${OCI} rmi ${IMAGENAME}:${VERSION}
+	@${OCI} rmi `${OCI} images --format '{{.Repository}}:{{.Tag}}' | grep '${IMAGENAME}'`
 
 run: build
 	${OCI} run ${RFLAGS} \
