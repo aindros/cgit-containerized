@@ -87,7 +87,8 @@ readme=:README
 about-filter=/usr/lib/cgit/filters/about-formatting.sh
 
 # https://lists.zx2c4.com/pipermail/cgit/2014-March/002036.html
-email-filter=lua:/usr/lib/cgit/filters/email-libravatar-korg.lua
+#email-filter=lua:/usr/lib/cgit/filters/email-libravatar-korg.lua
+email-filter=lua:/usr/lib/cgit/filters/email-libravatar.lua
 
 source-filter=/usr/lib/cgit/filters/syntax-highlighting.sh
 #source-filter=/usr/lib/cgit/filters/syntax-highlighting-custom.sh

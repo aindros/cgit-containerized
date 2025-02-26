@@ -41,6 +41,9 @@ MAINTAINER Alessandro Iezzi <aiezzi@alessandroiezzi.it>
 RUN apt-get update
 RUN apt-get install -y apache2 cgit git highlight nano
 
+# Needed by /usr/lib/cgit/filters/email-libravatar.lua
+RUN apt-get install -y lua-luaossl
+
 # Prepare cgit
 #
 # Replace /etc/cgitrc with the one in config directory and create the directory
